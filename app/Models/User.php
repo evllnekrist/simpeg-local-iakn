@@ -7,6 +7,21 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Passport\HasApiTokens;
+use OpenApi\Annotations as OA;
+
+/**
+ * Class User.
+ * 
+ * @author  Evelline <ev.attoff@gmail.com>
+ * 
+ * @OA\Schema(
+ *     description="User model",
+ *     title="User model",
+ *     @OA\Xml(
+ *         name="User"
+ *     )
+ * )
+ */
 
 class User extends Authenticatable
 {
@@ -45,5 +60,13 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+    
+    public function role_attr(){
+        return $this->belongsTo(Role::class, 'role_id', 'id');
+    }
+    
+    public function user_group_attr(){
+        return $this->belongsTo(UserGroup::class, 'user_group_id', 'id');
     }
 }
