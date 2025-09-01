@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\API\APIController;
 use App\Traits\PushLog;
 use App\Models\User;
 use App\Models\UserGroup;
@@ -26,7 +27,7 @@ class RegisteredUserController extends Controller
         $data['user_groups'] = UserGroup::orderBy('id','desc')->get();
         $data['roles'] = Role::orderBy('id','desc')->get();
         $data['active_status'] = Option::where('type','ACTIVE_STATUS')->get();
-        $data['is_deletable'] = $this->findBySlug($this->findBySlug(session('role_permission'), 'slug','/users')['permit'], 'name','delete'); 
+        $data['is_deletable'] = $this->findBySlug($this->findBySlug(session('role_permission'), 'slug','/user')['permit'], 'name','delete'); 
         return view('auth.register-list',$data);
     }
     // -------------------------------------- CALLED BY AJAX ---------------------------- start

@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers\API;
 
+use App\Helpers\QueryDebugger;
 use App\Http\Controllers\Controller;
 use App\Traits\PushLog;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 // use Symfony\Component\HttpKernel\Exception\HttpException;
 use OpenApi\Annotations as OA;
+
 
  /**
  * @OA\Info(
@@ -39,6 +41,9 @@ class APIController extends Controller
     public function get_list_common(Request $request, $model, $filter, $with, $with_where = []){
       // return json_encode(\Auth::user());
       try {
+      
+        // Enable query debugger (dump to screen only)
+        // QueryDebugger::enable(); // or QueryDebugger::enable(true, false)
         $data['filter']       = $request->all();
         $model                = 'App\Models\\'.$model;
         $page                 = $data['filter']['_page']  = (@$data['filter']['_page'] ? intval($data['filter']['_page']) : 1);
@@ -176,15 +181,15 @@ class APIController extends Controller
                 $data['products'] = $data['products']->orderBy($key,$value);
               }
             }
-          }else{
+          }else{ 
             $data['products'] = $data['products']->orderBy(app($model)->getKeyName(),'desc');
           }
         }
-        $query = $data['products']->toSql();
-        $bindings = $data['products']->getBindings();
         $data['products_count_total']   = $data['products']->count();
         $data['products']               = ($limit==0 && $offset==0)?$data['products']:$data['products']->limit($limit)->offset($offset);
-        // $data['products_raw_sql']       = $data['products']->toSql();
+        // $data['products_raw_sql']       = $data['products']->toRawSql();
+        // $data['products_binding']       = $data['products']->getBindings();
+        // dd($data['products']->toSql(), $data['products']->getBindings());
         $data['products']               = $data['products']->get();    
         $data['products_count_start']   = ($data['products_count_total'] == 0 ? 0 : (($page-1)*$limit)+1);
         $data['products_count_end']     = ($data['products_count_total'] == 0 ? 0 : (($page-1)*$limit)+sizeof($data['products']));
@@ -194,7 +199,7 @@ class APIController extends Controller
       }
     }
 
-    public function post_common(Request $request, $model, $rules, $file_indexes, $asik = false, $percentage = false){
+    public function post_common(Request $request, $model, $rules, $file_indexes){
         try {
             $validator = Validator::make($request->all(), $rules); 
             if ($validator->fails()) {
@@ -213,13 +218,6 @@ class APIController extends Controller
             // dump($body);return;
             $body['created_by']   = \Auth::user()?\Auth::user()->id:'public';
             $body['created_at']   = new \DateTime();
-            if ($percentage) {
-              if (isset($body['realization_data']) && isset($body['target_data']) && $body['target_data'] != 0) {
-                $body['percentage'] = round(($body['realization_data'] / $body['target_data']) * 100, 2);
-              } else {
-                $body['percentage'] = 0; // Default value if target_data is zero or not set
-              }
-            }
             $item2                = null;
             $item                 = app($model)->create($body);
 
@@ -283,7 +281,7 @@ class APIController extends Controller
       return $item;
     }
 
-    public function put_common(Request $request, $id, $model, $rules, $file_indexes, $asik = false, $id_alias = null, $percentage = false){
+    public function put_common(Request $request, $id, $model, $rules, $file_indexes){
         $default_folder     = strtolower($model);
         $model              = 'App\Models\\'.$model;
         $key_column = isset($id_alias) ? $id_alias : app($model)->getKeyName();
@@ -308,14 +306,6 @@ class APIController extends Controller
             $body['updated_by'] = \Auth::user()->id;
             $body['updated_at'] = new \DateTime();
 
-            if ($percentage) {
-              if (isset($body['realization_data']) && isset($body['target_data']) && $body['target_data'] != 0) {
-                $body['percentage'] = round(($body['realization_data'] / $body['target_data']) * 100, 2);
-              } else {
-                $body['percentage'] = 0; // Default value if target_data is zero or not set
-              }
-            }
-
             if(!empty($file_indexes)){
                 foreach($file_indexes as $index){ // https://laracasts.com/discuss/channels/laravel/how-direct-upload-file-in-storage-folder
                   if($request->file($index)){
@@ -338,7 +328,7 @@ class APIController extends Controller
         }
     }
 
-    public function delete_common($id, $model, $checking_table = [], $asik = false)
+    public function delete_common($id, $model, $checking_table = [])
     {
         $model  = 'App\Models\\'.$model;
         $item   = $model::where(app($model)->getKeyName(),$id)->first();
@@ -363,16 +353,10 @@ class APIController extends Controller
             $item->save();
             $item->delete();
 
-            if($asik){
-              $item2->deleted_by = \Auth::user()->id;
-              $item2->save();
-              $item2->delete();
-            }
-
-            $this->LogStatement('Tambah '.$this->get_org_model($model).' Berhasil',json_encode($item));
+            $this->LogStatement('Hapus'.$this->get_org_model($model).' Berhasil',json_encode($item));
             return response()->json(array('message'=>'Berhasil dihapus!'), 200);
         } catch(\Exception $exception) {
-          $this->LogStatement('Tambah '.$this->get_org_model($model).' Gagal',$exception->getMessage());
+          $this->LogStatement('Hapus '.$this->get_org_model($model).' Gagal',$exception->getMessage());
           return response()->json(array('message'=>"Data tidak valid : {$exception->getMessage()}"),400);
         }
     }

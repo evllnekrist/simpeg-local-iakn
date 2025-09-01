@@ -1,7 +1,7 @@
 @extends('layouts.app-enigma', ['breadcrumbs'=>@$page_conf['breadcrumbs']])
 @section('title', 'Daftar Data')
 @section('content')
-    <div class="mt-5 grid grid-cols-12 gap-6">
+    <div class="mt-5">
         @include('components.extra.table', $page_conf)
     </div>
 @endsection

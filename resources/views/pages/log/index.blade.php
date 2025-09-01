@@ -64,7 +64,7 @@
                 </div>
             </div>
             <div class="flex w-full sm:w-auto">
-                <span class="text-end text-white font-bold">Log Aplikasi</span>
+                <span class="text-end font-bold">Log Aplikasi</span>
             </div>
         </div>
         <!-- END: Inbox Filter -->

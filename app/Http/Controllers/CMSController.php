@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-// use App\Models\Option;
+use App\Models\Option;
 // use Illuminate\Http\Request;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Support\Facades\Auth;
@@ -13,9 +13,16 @@ class CMSController extends Controller
 
     // -------------------- START:employee --------------------
         public function prepare_employee(){
-            $object     = 'employee';
-            $statuses   = [];
-            $types   = [];
+            $object                     = 'employee';
+            $status_list                = Option::where('type','STATUS_PEGAWAI')->get();
+            $jenis_list                 = Option::where('type','JENIS_PEGAWAI')->get();
+            $status_kepegawaian_list    = Option::where('type','STATUS_KEPEGAWAIAN')->get();
+            $jenis_kelamin_list         = Option::where('type','JENIS_KELAMIN')->get();
+            $status_perkawinan_list     = Option::where('type','STATUS_PERKAWINAN')->get();
+            $agama_list                 = Option::where('type','AGAMA')->get();
+            $pangkat_golongan_list      = app('App\Models\PangkatGolongan')->get();
+            $jenis_jabatan_list         = app('App\Models\JenisJabatan')->get();
+            $jabatan_list               = app('App\Models\Jabatan')->get();
 
             $conf       =
             [
@@ -38,25 +45,24 @@ class CMSController extends Controller
                     [
                         'label'=>'Status',
                         'var_name'=>'status',
-                        'var_name_parent'=>'status_attr',
-                        'var_name_child'=>'label',
                         'is_order'=>true,
                         'search'=>[
                             'type'=>'select',
                             'label'=>'label',
                             'id'=>'value',
-                            'options'=>$statuses,
+                            'options'=>$status_list,
                         ],
                     ],
                     [
                         'type'=>'link',
                         'label'=>'Nama',
-                        'var_name'=>'name',
+                        'var_name'=>'nama',
                         'is_order'=>true,
                         'search'=>[
                             'type'=>'text'
                         ],
-                        'style'=>'min-width:200px;'
+                        'style'=>'min-width:200px;',
+                        'class'=>'text-sky-500'
                     ],
                     [
                         'label'=>'NIK',
@@ -75,16 +81,79 @@ class CMSController extends Controller
                         ],
                     ],
                     [
-                        'label'=>'Jabatan',
-                        'var_name'=>'position',
+                        'label'=>'Jenis Pegawai',
+                        'var_name'=>'jenis_pegawai',
                         'is_order'=>true,
                         'search'=>[
-                            'type'=>'text'
+                            'type'=>'select',
+                            'label'=>'label',
+                            'id'=>'value',
+                            'options'=>$jenis_list,
                         ],
                     ],
                     [
-                        'label'=>'Golongan',
-                        'var_name'=>'rank_group',
+                        'label'=>'Status Kepegawaian',
+                        'var_name'=>'status_kepegawaian',
+                        'is_order'=>true,
+                        'search'=>[
+                            'type'=>'select',
+                            'label'=>'label',
+                            'id'=>'value',
+                            'options'=>$status_kepegawaian_list,
+                        ],
+                    ],
+                    [
+                        'label'=>'Pangkat/ Golongan',
+                        'var_name'=>'golongan_ruang',
+                        'var_name_parent'=>'pangkat_golongan',
+                        'var_name_child'=>'combined',
+                        'is_order'=>true,
+                        'search'=>[
+                            'type'=>'select',
+                            'label'=>'combined',
+                            'id'=>'combined',
+                            'options'=>$pangkat_golongan_list,
+                        ],
+                    ],
+                    [
+                        'label'=>'Kelas Jabatan',
+                        'var_name'=>'kelas_jabatan',
+                        'is_order'=>true,
+                        'search'=>[
+                            'type'=>'number'
+                        ],
+                    ],
+                    [
+                        'label'=>'Jenis Jabatan',
+                        'var_name'=>'jenis_jabatan',
+                        'var_name_parent'=>'jenis_jabatan',
+                        'var_name_child'=>'nama',
+                        'is_order'=>true,
+                        'search'=>[
+                            'type'=>'select',
+                            'label'=>'nama',
+                            'sublabel'=>'keterangan',
+                            'id'=>'kode',
+                            'options'=>$jenis_jabatan_list,
+                        ],
+                    ],
+                    [
+                        'label'=>'Jabatan',
+                        'var_name'=>'jabatan',
+                        'var_name_parent'=>'jabatan',
+                        'var_name_child'=>'nama',
+                        'is_order'=>true,
+                        'search'=>[
+                            'type'=>'select',
+                            'label'=>'nama',
+                            'sublabel'=>'kategori',
+                            'id'=>'kode',
+                            'options'=>$jabatan_list,
+                        ],
+                    ],
+                    [
+                        'label'=>'Jabatan Terakhir',
+                        'var_name'=>'jabatan_terakhir',
                         'is_order'=>true,
                         'search'=>[
                             'type'=>'text'
@@ -100,19 +169,19 @@ class CMSController extends Controller
                             'select_attr'=>[
                                 'label'=>'label',
                                 'id'=>'value',
-                                'options'=>$statuses,
+                                'options'=>$status_list,
                             ],
                         ],
-                        [
-                            'label'=>'Tipe Surat',
-                            'var_name'=>'letter_type',
-                            'type'=>'select',
-                            'select_attr'=>[
-                                'label'=>'label',
-                                'id'=>'value',
-                                'options'=>$types,
-                            ],
-                        ],
+                        // [
+                        //     'label'=>'Tipe Surat',
+                        //     'var_name'=>'letter_type',
+                        //     'type'=>'select',
+                        //     'select_attr'=>[
+                        //         'label'=>'label',
+                        //         'id'=>'value',
+                        //         'options'=>$types,
+                        //     ],
+                        // ],
                         [
                             'label'=>'Nama',
                             'sublabel'=>'Dengan gelar, sesuai format penandatanganan pada umumnya',

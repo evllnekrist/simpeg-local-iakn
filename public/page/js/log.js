@@ -13,7 +13,7 @@ function getData(move_to_page=null){
   if(move_to_page){
     $('[name="_page"]').val(move_to_page);
   }
-  let url = baseUrl+'/api/log/get'
+  let url = baseUrl+'/api/log'
   let payload = {};
   payload['_dir'] = {}
   $("._dir").each(function() {
@@ -26,7 +26,7 @@ function getData(move_to_page=null){
   });
   // console.log('payload',payload); 
   // return;
-  axios.post(url, payload, apiHeaders)
+  axios.get(url, {params: payload}, apiHeaders)
   .then(function (response) {
     console.log('[DATA] response..',response.data);
     if(response.data.status) {

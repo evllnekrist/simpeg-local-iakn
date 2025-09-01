@@ -10,6 +10,7 @@ return new class extends Migration
     {
         Schema::create('pegawai', function (Blueprint $table) {
             $table->id();
+            $table->string('status', 20)->nullable(); // 'aktif', 'tugas_belajar'
             $table->string('nip', 20)->nullable();
             $table->string('nik', 20)->nullable();
             $table->text('nama');
@@ -28,6 +29,7 @@ return new class extends Migration
             $table->string('kode_pos', 10)->nullable();
             $table->string('jenis_pegawai', 15)->nullable(); // administrasi, dosen, honorer
             $table->string('status_kepegawaian', 10)->nullable(); // pns, pppk, honorer
+            $table->string('kelas_jabatan', 50)->nullable();
             $table->string('golongan_ruang', 50)->nullable();
             $table->string('jenis_jabatan', 20)->nullable();
             $table->string('jabatan', 50)->nullable();

@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class PangkatGolongan extends Model
 {
     protected $table = 'pangkat_golongan';
-    protected $fillable = ['golongan', 'ruang', 'pangkat'];
+    protected $fillable = ['combined', 'golongan', 'ruang', 'pangkat'];
 
     public function get_combined_attribute()
     {

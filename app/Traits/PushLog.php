@@ -5,7 +5,7 @@ use App\Models\Log;
 trait PushLog
 {
     private $to_json_encode = array('array','object');
-    public function LogRequest($subject, $request, $response){
+    public function LogRequest($subject, $request, $response){ // untuk yang ada aksi reaksinya
       // dd(
       Log::create(
         array(
@@ -18,7 +18,7 @@ trait PushLog
       );
     }
 
-    public function LogStatement($subject, $message){
+    public function LogStatement($subject, $message){ // untuk yang berupa pernyataan saja
       // dd(
       Log::create(
         array(

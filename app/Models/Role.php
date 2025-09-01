@@ -16,6 +16,7 @@ class Role extends Model
     protected $fillable = [
       'name',
       'description',
+      'is_deletable', // mark some object
       'created_at',
       'created_by',
       'updated_at',

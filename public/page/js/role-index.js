@@ -3,7 +3,7 @@ const no_delete_items = [1,2];
 
 function doDelete(id,name){
   if(confirm("Apakah Anda yakin menghapus group pengguna '"+name+"'? Aksi ini tidak dapat dibatalkan.")){
-    axios.post(baseUrl+'/api/role/post-delete/'+id, {}, apiHeaders)
+    axios.delete(baseUrl+'/api/role/'+id, {}, apiHeaders)
     .then(function (response) {
       console.log('response..',response);
       if(response.status == 200 && response.data.status) {
@@ -14,7 +14,7 @@ function doDelete(id,name){
           // html: "...",
           confirmButtonText: 'Ya, terima kasih',
         });
-        window.location = baseUrl+'/roles';
+        window.location = baseUrl+'/role';
       }else{
         Swal.fire({
           icon: 'warning',
@@ -52,7 +52,7 @@ function getData(move_to_page=null){
   if(move_to_page){
     $('[name="_page"]').val(move_to_page);
   }
-  let url = baseUrl+'/api/role/get'
+  let url = baseUrl+'/api/role'
   let payload = {};
   payload['_dir'] = {}
   $("._dir").each(function() {
@@ -65,7 +65,7 @@ function getData(move_to_page=null){
   });
   // console.log('payload',payload); 
   // return;
-  axios.post(url, payload, apiHeaders)
+  axios.get(url, {params: payload}, apiHeaders)
   .then(function (response) {
     console.log('[DATA] response..',response.data);
     if(response.data.status) {

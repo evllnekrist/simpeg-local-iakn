@@ -58,6 +58,7 @@ class AuthController extends Controller
             $request['remember_token']  =   \Illuminate\Support\Str::random(10);
             $user       = User::create($request->toArray());
             $token      = $user->createToken('SimpegLocalIAKN')->accessToken; // string inside createToken is the token name
+            $request->session()->put('_token_api',$token);
             return response()->json(
                 array('name' => $request->name, 'email' => $request->get('email'), 'token' => $token), 
                 200
@@ -106,6 +107,7 @@ class AuthController extends Controller
             if ($user) {
                 if (Hash::check($request->password, $user->password)) {
                     $token = $user->createToken('SimpegLocalIAKN')->accessToken;
+                    $request->session()->put('_token_api',$token);
                     return response()->json(
                         array('email' => $request->get('email'), 'token' => $token), 
                         200

@@ -4,10 +4,11 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="csrf-token" content="{{ csrf_token() }}">
-        <meta name="description" content="Mandatling part of Bank Data for Katingan Kab: Easy to Find, Available and Authorized">
+        <meta name="tapi" content="{{Session::get('_token_api')}}">
+        <meta name="description" content="{{ config('app.desc') }}">
         <meta name="keywords" content="katingan,mandatling,bank data,dlh">
         <meta name="author" content="Evelline Krist.">
-        <title>@yield('title') | Mandatling Kab.Katingan</title>
+        <title>@yield('title') | {{ config('app.name') }}</title>
         <link rel="icon" type="image/x-icon" href="{{asset('image/logo-clean.png')}}">
         <!-- BEGIN: CSS Assets-->
         <link rel="stylesheet" href="{{asset('dist/css/vendors/simplebar.css')}}">
@@ -81,7 +82,6 @@
                 const allowedRoutes = [ // Define routes where the background should be applied
                     "/",            // Base URL
                     "/dashboard",   // Dashboard route
-                    "/logs"          // Log route
                 ];
 
                 if (allowedRoutes.includes(path)) { // Check if the current route is in the allowed routes

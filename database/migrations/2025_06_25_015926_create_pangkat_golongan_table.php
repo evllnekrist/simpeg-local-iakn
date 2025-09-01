@@ -9,10 +9,11 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('pangkat_golongan', function (Blueprint $table) {
+            $table->string('combined', 10);
             $table->string('golongan', 5);
             $table->string('ruang', 5);
             $table->string('pangkat', 30);
-            $table->primary(['golongan', 'ruang']);
+            $table->primary(['combined', 'golongan', 'ruang']);
         });
     }
 

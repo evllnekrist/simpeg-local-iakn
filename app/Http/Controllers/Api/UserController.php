@@ -6,19 +6,19 @@ use Illuminate\Http\Request;
 use OpenApi\Annotations as OA;
 
 /**
- * Class EmployeeController.
+ * Class UserController.
  *
  * @author  Evelline <ev.attoff@gmail.com>
  */
-class EmployeeController extends APIController
+class UserController extends APIController
 {
-    protected $model = 'Pegawai';
+    protected $model = 'User';
     /**
      * @OA\Get(
-     *     path="/api/employee",
-     *     tags={"Pegawai - CRUD"},
+     *     path="/api/user",
+     *     tags={"User - CRUD"},
      *     summary="Display a listing of items",
-     *     operationId="employeeIndex",
+     *     operationId="userIndex",
      *     @OA\Response(
      *         response=200,
      *         description="successful",
@@ -68,20 +68,17 @@ class EmployeeController extends APIController
      */
     public function index(Request $request)
     {
-        if(!$request->get('_dir')){
-            $request->merge(['_dir' => array('id'=>'ASC')]); 
-        }
-        $filter['equal']  = ['status','jenis_kelamin','agama','status_perkawinan','jenis_pegawai','status_kepegawaian','golongan_ruang','jenis_jabatan','jabatan','pendidikan_terakhir','penempatan'];
-        $filter['search'] = ['nip','nik','nama','tempat_lahir','tanggal_lahir','hp','email','alamat','kelurahan','kecamatan','kabupaten','provinsi','kode_pos','jabatan_terakhir','nip_atasan','tmpt_nip','tmt','karpeg','karis','kpe','taspen','npwp','nuptk','nidn','no_rekening','bank_rekening'];
-        return $this->get_list_common($request, $this->model, $filter, ['pangkat_golongan', 'jenis_jabatan', 'jabatan', 'penempatan']); 
+        $filter['equal']  = ['role_id','user_group_id','is_enabled'];
+        $filter['search'] = ['name','email'];
+        return $this->get_list_common($request, 'User', $filter, ['role_attr','user_group_attr']);
     }
 
     /**
-     * @OA\Employee(
-     *     path="/api/employee",
-     *     tags={"Pegawai - CRUD"},
+     * @OA\User(
+     *     path="/api/user",
+     *     tags={"User - CRUD"},
      *     summary="Store a newly created item",
-     *     operationId="employeeStore",
+     *     operationId="userStore",
      *     @OA\MediaType(mediaType="multipart/form-data"),
      *     @OA\Response(
      *         response=400,
@@ -120,10 +117,10 @@ class EmployeeController extends APIController
 
     /**
      * @OA\Get(
-     *     path="/api/employee/{id}",
-     *     tags={"Pegawai - CRUD"},
+     *     path="/api/user/{id}",
+     *     tags={"User - CRUD"},
      *     summary="Display the specified item",
-     *     operationId="employeeShow",
+     *     operationId="userShow",
      *     @OA\Response(
      *         response=404,
      *         description="Item not found",
@@ -156,11 +153,11 @@ class EmployeeController extends APIController
     }
 
     /**
-     * @OA\Employee(
-     *     path="/api/employee/{id}",
-     *     tags={"Pegawai - CRUD"},
+     * @OA\User(
+     *     path="/api/user/{id}",
+     *     tags={"User - CRUD"},
      *     summary="Update the specified item",
-     *     operationId="employeeUpdate",
+     *     operationId="userUpdate",
      *     @OA\MediaType(mediaType="multipart/form-data"),
      *     @OA\Response(
      *         response=404,
@@ -214,10 +211,10 @@ class EmployeeController extends APIController
     
     /**
      * @OA\Delete(
-     *     path="/api/employee/{id}",
-     *     tags={"Pegawai - CRUD"},
+     *     path="/api/user/{id}",
+     *     tags={"User - CRUD"},
      *     summary="Remove the specified item",
-     *     operationId="employeeDestroy",
+     *     operationId="userDestroy",
      *     @OA\Response(
      *         response=404,
      *         description="Item not found",

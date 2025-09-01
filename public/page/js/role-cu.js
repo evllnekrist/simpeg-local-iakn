@@ -1,3 +1,7 @@
+console.log('____extension');
+apiHeaders['headers']['Authorization'] = 'Bearer '+$("meta[name='tapi']").attr("content");
+console.log(apiHeaders);
+
 $(function(){
     $("#btn-submit-add").on('click', function(e) {
       const form = document.getElementById('form-add');
@@ -18,7 +22,7 @@ $(function(){
         // for (const [key, value] of formData) {
         //   console.log('»', key, value)
         // }; return;
-        axios.post(baseUrl+'/api/role/post-add', formData, apiHeaders)
+        axios.post(baseUrl+'/api/role', formData, apiHeaders)
         .then(function (response) {
           console.log('response..',response);
           if(response.status == 200 && response.data.status) {
@@ -29,7 +33,7 @@ $(function(){
               // html: "...",
               confirmButtonText: 'Ya, terima kasih',
             });
-            window.location = baseUrl+'/roles';
+            // window.location = baseUrl+'/role';
           }else{
             Swal.fire({
               icon: 'warning',
@@ -72,10 +76,11 @@ $(function(){
         $('#loading').show();
         $('#form').hide();
         const formData = new FormData(form);
+        // console.log(formData.get('id')); return;
         // for (const [key, value] of formData) {
         //   console.log('»', key, value)
         // }; return;
-        axios.post(baseUrl+'/api/role/post-edit', formData, apiHeaders)
+        axios.post(baseUrl+'/api/role/'+$('#item-id').val(), formData, apiHeaders)
         .then(function (response) {
           console.log('response..',response);
           if(response.status == 200 && response.data.status) {
@@ -86,7 +91,7 @@ $(function(){
               // html: "...",
               confirmButtonText: 'Ya, terima kasih',
             });
-            window.location = baseUrl+'/roles';
+            window.location = baseUrl+'/role';
           }else{
             Swal.fire({
               icon: 'warning',

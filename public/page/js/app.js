@@ -1,12 +1,14 @@
 console.log('____app js');
 
 const baseUrl = window.location.origin;
-const apiHeaders = {
-    "Accept": "*/*",
-    "Access-Control-Allow-Origin": "*",
-    "Content-Type": "multipart/form-data",
-};
 const formatterMonth = new Intl.DateTimeFormat('en-US', { month: 'short' });
+let apiHeaders = {
+    headers: {
+        "Accept": "*/*",
+        "Access-Control-Allow-Origin": "*",
+        "Content-Type": "multipart/form-data",
+    }
+};
 let isDark = $('html.dark').length;
 let loadingElementImg = `<div class="col-span-12"><img src="../../image/loading.gif" class="mx-auto"></div>`;
 let loadingElement = `<div class="mx-auto">memuat...</div>`;

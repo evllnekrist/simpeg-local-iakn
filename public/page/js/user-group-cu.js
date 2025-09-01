@@ -18,7 +18,7 @@ $(function(){
         // for (const [key, value] of formData) {
         //   console.log('»', key, value)
         // }; return;
-        axios.post(baseUrl+'/api/user-group/post-add', formData, apiHeaders)
+        axios.post(baseUrl+'/api/user-group', formData, apiHeaders)
         .then(function (response) {
           console.log('response..',response);
           if(response.status == 200 && response.data.status) {
@@ -29,7 +29,7 @@ $(function(){
               // html: "...",
               confirmButtonText: 'Ya, terima kasih',
             });
-            window.location = baseUrl+'/user-groups';
+            window.location = baseUrl+'/user-group';
           }else{
             Swal.fire({
               icon: 'warning',
@@ -75,7 +75,7 @@ $(function(){
         // for (const [key, value] of formData) {
         //   console.log('»', key, value)
         // }; return;
-        axios.post(baseUrl+'/api/user-group/post-edit', formData, apiHeaders)
+        axios.post(baseUrl+'/api/user-group', formData, apiHeaders)
         .then(function (response) {
           console.log('response..',response);
           if(response.status == 200 && response.data.status) {
@@ -86,7 +86,7 @@ $(function(){
               // html: "...",
               confirmButtonText: 'Ya, terima kasih',
             });
-            window.location = baseUrl+'/user-groups';
+            window.location = baseUrl+'/user-group';
           }else{
             Swal.fire({
               icon: 'warning',
