@@ -46,10 +46,10 @@ function getData(move_to_page=null){
             let template = ``;
             (response.data.data.products).forEach((item) => {
               template =
-              `<div class="intro-y tbody-item">
+              `<div class="intro-y tbody-item text-xs">
                   <div data-target=".expandable-`+item.id+`-collapse" onclick="expandable(this)"
                       class="transition duration-200 ease-in-out transform cursor-pointer inline-block sm:block border-b border-slate-200/60 dark:border-darkmode-400 hover:scale-[1.02] hover:relative hover:z-20 hover:shadow-md hover:border-0 hover:rounded bg-white text-slate-800 dark:text-slate-300 dark:bg-darkmode-600">
-                      <div class="flex px-5 py-3">
+                      <div class="flex px-5 py-1">
                           <div class="mr-5 w-1/4 truncate expandable-`+item.id+`-collapse">`+(item.subject?item.subject:`-`)+`</div>
                           <div class="mr-5 w-1/2 truncate expandable-`+item.id+`-collapse">`+(item.request?item.request:`-`)+`</div>
                           <div class="mr-5 w-1/2 truncate expandable-`+item.id+`-collapse">`+(item.response?item.response:`-`)+`</div>

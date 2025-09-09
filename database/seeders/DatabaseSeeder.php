@@ -19,9 +19,13 @@ class DatabaseSeeder extends Seeder
         //     'email' => 'test@example.com',
         // ]);
         
-        $this->call(JabatanSeeder::class);
-        $this->call(JenisJabatanSeeder::class);
-        $this->call(PangkatGolonganSeeder::class);
-        $this->call(PenempatanSeeder::class);
+        // $this->call(JabatanSeeder::class);
+        // $this->call(JenisJabatanSeeder::class);
+        // $this->call(PangkatGolonganSeeder::class);
+        // $this->call(PenempatanSeeder::class);
+        // $this->call(BPSProvincesSeeder::class);
+        // $this->call(BPSCitiesSeeder::class);
+        $this->call(BPSDistrictsSeeder::class);
+        $this->call(BPSVillagesSeeder::class);
     }
 }

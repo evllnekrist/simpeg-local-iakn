@@ -24,7 +24,7 @@
         </div>
     </div>
 
-    <div class="intro-y mt-5 col-span-12 overflow-auto lg:overflow-visible">
+    <div class="intro-y mt-5 col-span-12  overflow-x-auto">
         <table data-tw-merge="" class="w-full text-left -mt-2 border-separate border-spacing-y-[2px]">
             <thead data-tw-merge="" class="">
                 <tr data-tw-merge="" class="">
@@ -74,7 +74,7 @@
                                                 updateOtherSelects(this, '_{{$column['search']['for']}}', '{{$column['search']['for_url']}}', '{{$column['search']['for_column']}}');
                                             @endif"
                                             class="_filter _filter_search {{$style['input']}}">
-                                            <option value="">--Pilih--</option>
+                                            <option value="">--Semua--</option>
                                             @foreach ($column['search']['options'] as $option)
                                                     <option value="{{$option[$column['search']['id']]}}">{{$option[$column['search']['label']]}}</option>
                                                 @endforeach

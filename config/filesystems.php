@@ -76,5 +76,33 @@ return [
     'links' => [
         public_path('storage') => storage_path('app/public'),
     ],
+    
+    'pengajuan' => [
+        'file_upload_limit_mb' => 5,
+        'file_upload_allow_mime' => array(
+            'application/pdf',
+            'application/octet-stream'
+        ),
+        'file_upload_instruct_org' => 'File, format PDF, max 5 MB',
+        'file_upload_instruct_scan' => 'Scan/foto, format PDF, max 5 MB'
+    ],
+
+    'accept_mimes' => array(
+        'img' => array('image/png','image/jpg','image/jpeg','image/webp','image/heic','image/heif'),
+        'doc' => array(
+            'application/pdf',
+            'application/msword','application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+            'application/excel','application/vnd.ms-excel','application/x-excel','application/x-msexcel','application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+            'text/csv',
+            'application/mspowerpoint','application/powerpoint','application/vnd.ms-powerpoint','application/x-mspowerpoint','application/vnd.openxmlformats-officedocument.presentationml.presentation',
+        ),
+    ),
+    
+    'accept_extensions' => array(
+        'img' => array('.png','.jpg','.jpeg','.jfif','.webp','.heic','.heif'),
+        'doc' => array('.pdf','.doc','.docx','.xls','.xlsx','.csv','.ppt','.pptx'), 
+    ),
+
+    'file_indexes' =>['img_main', 'file_main', 'img_specimen'],
 
 ];

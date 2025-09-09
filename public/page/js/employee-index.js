@@ -130,7 +130,7 @@ function getData(move_to_page=null){
                         `<i>tidak dapat dihapus</i>`;
               }else{
                 template +=
-                        `<a class="mr-3 flex items-center" href="`+baseUrl+'/user/edit/'+item.id+`">
+                        `<a class="mr-3 flex items-center" href="`+baseUrl+'/user/'+item.id+`">
                         <i class="fa fa-pen"></i>
                         </a>`;
                 if(deletable){

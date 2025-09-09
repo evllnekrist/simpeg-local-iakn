@@ -242,7 +242,7 @@
   border: 1px solid #d0d0d0;
   border-width: 0 0 1px;
   display: block;
-  padding: 8px 8px;
+  padding: 0px 2px;
   box-shadow: none;
   width: 100%;
   background: transparent;
@@ -466,12 +466,12 @@
   border: 1px solid #e2e8f0;
 }
 .tom-select .ts-dropdown .optgroup-header {
-  padding: 0.625rem 0.75rem;
+  padding: 0.425rem 0.4rem;
   font-weight: 500;
   background-color: #f1f5f9;
 }
 .tom-select .ts-dropdown .option {
-  padding: 0.625rem 0.75rem;
+  padding: 0.425rem 0.4rem;
 }
 .tom-select .ts-dropdown .option[data-selectable].active:not(.selected) {
   color: inherit;

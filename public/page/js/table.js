@@ -164,14 +164,6 @@ function getData(moveToPage=null){
                                     icon = 'fa-heart';
                                     color = '#6c757d'; // Elegan abu-abu
                                 }
-                            } else if(val_var['var_name']=='method'){
-                                if (tempName == 'Berdiri') {
-                                    icon = 'fa-child';
-                                    color = '#9561e2'; // Elegan ungu
-                                } else {
-                                    icon = 'fa-bed';
-                                    color = '#ff5733'; // Elegan oranye
-                                }
                             }else {
                                 if (tempName == 'Islam') {
                                     icon = 'fa-mosque';
@@ -194,22 +186,7 @@ function getData(moveToPage=null){
                                 }
                             }
                             temp += val_var['divider'];
-                            if('var_name_parent' in val_var){
-                                itemTemp = item[val_var['var_name_parent']][val_var['var_name_child']];
-                            }else{
-                                itemTemp = tempName;
-                            }
 
-                            if(itemTemp == 'perorangan'){
-                                itemTemp = 'Perorangan';
-                                class_vnc = 'bg-primary';
-                            }else if (itemTemp == 'keluarga'){
-                                itemTemp = 'Keluarga';
-                                class_vnc = 'bg-success';
-                            }else if (itemTemp == 'rumah_tangga'){
-                                itemTemp = 'Rumah Tangga';
-                                class_vnc = 'bg-warning';
-                            }
                             
                             if(val_var['type']=='badge'){
                                 temp += `<span class="rounded-full `+class_vnc+` py-[3px] pl-2 pr-1 text-xs font-medium text-white">`+itemTemp+`</span>`;
@@ -230,36 +207,47 @@ function getData(moveToPage=null){
                                             <i class="fa fa-table"></i>
                                         </a>`;
                         }
-                        if((typeof no_editable_items !== 'undefined') || (!'is_editable' in val || val.is_editable == true)){
-                            if(no_editable_items.includes(item[pk])){
-                                template += `<i class="small text-muted2">tidak dapat diedit</i>`;
-                                if(no_deletable_items.includes(item[pk])){
-                                    template += `<br>`;
+                        
+                        if(!('visibility_edit' in val) || (val.visibility_edit == true)){
+                            if((typeof no_editable_items !== 'undefined') || (!'is_editable' in val || val.is_editable == true)){
+                                if(no_editable_items.includes(item[pk])){
+                                    template += `<i class="small text-muted2">tidak dapat diedit</i>`;
+                                    if(no_deletable_items.includes(item[pk])){
+                                        template += `<br>`;
+                                    }
+                                }else{
+                                    template += `<a class="mr-3 items-center" href="`+baseUrl+'/'+object+'/'+item[pk]+`">
+                                                    <i class="fa fa-pen"></i>
+                                                </a>`;
                                 }
                             }else{
                                 template += `<a class="mr-3 items-center" href="`+baseUrl+'/'+object+'/'+item[pk]+`">
                                                 <i class="fa fa-pen"></i>
                                             </a>`;
                             }
-                        }else{
-                            template += `<a class="mr-3 items-center" href="`+baseUrl+'/'+object+'/'+item[pk]+`">
-                                            <i class="fa fa-pen"></i>
-                                        </a>`;
                         }
-                        if((typeof no_deletable_items !== 'undefined') || (!'is_deletable' in val || val.is_deletable == true)){
-                            if(no_deletable_items.includes(item[pk])){
-                                template += `<i class="small text-muted2">tidak dapat dihapus</i>`;
+                        if(!('visibility_deletion' in val) || (val.visibility_deletion == true)){
+                            if((typeof no_deletable_items !== 'undefined') || (!'is_deletable' in val || val.is_deletable == true)){
+                                if(no_deletable_items.includes(item[pk])){
+                                    template += `<i class="small text-muted2">tidak dapat dihapus</i>`;
+                                }else{
+                                    template += `<a onclick="doDelete(`+item.id+`,'`+item[val['delete_name']]+`')" class="items-center text-danger">
+                                                    <i class="fa fa-trash"></i>
+                                                </a>`;
+                                }
                             }else{
                                 template += `<a onclick="doDelete(`+item.id+`,'`+item[val['delete_name']]+`')" class="items-center text-danger">
                                                 <i class="fa fa-trash"></i>
                                             </a>`;
                             }
-                        }else{
-                            template += `<a onclick="doDelete(`+item.id+`,'`+item[val['delete_name']]+`')" class="items-center text-danger">
-                                            <i class="fa fa-trash"></i>
-                                        </a>`;
                         }
                         template += `</td>`;
+                    }else if(val.type == 'link'){
+                            template += `<td    class="border border-gray-300 p-2 truncate `+(val.class?val.class:``)+` `+tempClass+`" 
+                                                onclick="expandable(this)" style="max-width:400px">
+                                                <a class="mr-3 items-center" target="_blank" href="`+baseUrl+'/'+object+'/'+item[pk]+`">`+item[val.var_name]+
+                                                `</a>`+
+                                        `</td>`;
                     }else if(val.var_name == 'img_main'){
                         template += `<td class="border border-gray-300 p-2">`+imgToDisplayHtml+`</td>`;
                     }else if(val.type == 'number_formula'){

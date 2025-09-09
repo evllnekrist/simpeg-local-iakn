@@ -11,14 +11,15 @@
         <title>@yield('title') | {{ config('app.name') }}</title>
         <link rel="icon" type="image/x-icon" href="{{asset('image/logo-clean.png')}}">
         <!-- BEGIN: CSS Assets-->
+         
+        @vite(['resources/css/app.css', 'resources/js/app.js'])
         <link rel="stylesheet" href="{{asset('dist/css/vendors/simplebar.css')}}">
         <link rel="stylesheet" href="{{asset('dist/css/vendors/tippy.css')}}">
-        {{-- <link rel="stylesheet" href="{{asset('dist/css/vendors/font-awesome/all.min.css')}}"> --}}
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
         <link rel="stylesheet" href="{{asset('dist/css/components/mobile-menu.css')}}">
         <link rel="stylesheet" href="{{asset('dist/css/themes/enigma/side-nav.css?v=241023')}}">
-        <link rel="stylesheet" href="{{asset('dist/css/app.css?v=24111005')}}">
-        <link rel="stylesheet" href="{{asset('page/css/app.css')}}">
+        <link rel="stylesheet" href="{{asset('dist/css/app.css?v=25090801')}}">
+        <link rel="stylesheet" href="{{asset('page/css/app.css?v=25090801')}}">
         <!-- END: CSS Assets-->
         @yield('addition_css')
 
@@ -36,7 +37,7 @@
 
     </head>
     <body>
-        @include('components.enigma.display-change-widget')
+        {{-- @include('components.enigma.display-change-widget') --}}
         <div class="enigma py-5 px-5 md:py-0 sm:px-8 md:px-0 before:content-[''] before:bg-gradient-to-b before:from-theme-1 before:to-theme-2 dark:before:from-darkmode-800 dark:before:to-darkmode-800 md:before:bg-none md:bg-slate-200 md:dark:bg-darkmode-800 before:fixed before:inset-0 before:z-[-1]">
             @include('components.enigma.nav-mobile')
             @include('components.enigma.top-bar')

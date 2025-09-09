@@ -31,16 +31,17 @@ Route::middleware('auth')->group(function () {
     
     Route::get('role', [RoleController::class, 'index'])->name('role');
     Route::get('role/add', [RoleController::class, 'form_add'])->name('role.add');
-    Route::get('role/edit/{id}', [RoleController::class, 'form_edit'])->name('role.edit');
+    Route::get('role/{id}', [RoleController::class, 'form_edit'])->name('role.edit');
 
     Route::get('user-group', [UserGroupController::class, 'index'])->name('user-group');
     Route::get('user-group/add', [UserGroupController::class, 'form_add'])->name('user-group.add');
-    Route::get('user-group/edit/{id}', [UserGroupController::class, 'form_edit'])->name('user-group.edit');
+    Route::get('user-group/{id}', [UserGroupController::class, 'form_edit'])->name('user-group.edit');
 
     Route::get('user', [RegisteredUserController::class, 'index'])->name('user');
-    Route::get('user/edit/{id}', [RegisteredUserController::class, 'form_edit'])->name('user.edit');
+    Route::get('user/{id}', [RegisteredUserController::class, 'form_edit'])->name('user.edit');
     Route::post('user', [RegisteredUserController::class, 'update'])->name('user.update');
 
+    Route::get('statistic', [CMSController::class, 'index_statistic'])->name('stats');
     Route::get('log', [LogController::class, 'index'])->name('log');
     Route::get('faq', [HomeController::class, 'index_faq'])->name('faq');
     
