@@ -9,6 +9,7 @@ use App\Http\Controllers\API\RoleController;
 use App\Http\Controllers\API\UserGroupController;
 use App\Http\Controllers\API\LogController;
 use App\Http\Controllers\API\EmployeeController;
+use App\Http\Controllers\API\StatisticController;
 
 Route::prefix('user')->group(function () {
     Route::post('/register', [AuthController::class, 'register']);
@@ -45,3 +46,5 @@ Route::resource('log', LogController::class, ['only' => ['index', 'show']]);
 Route::resource('employee', EmployeeController::class, ['only' => ['index', 'show']]);
 Route::post('/employee/{id}', [EmployeeController::class, 'update'])->middleware(['auth:api']);
 Route::resource('employee', EmployeeController::class, ['except' => ['index', 'show']])->middleware(['auth:api']);
+
+Route::get('/statistic/emp/by-count/{var}', [StatisticController::class, 'by_count_employee']);

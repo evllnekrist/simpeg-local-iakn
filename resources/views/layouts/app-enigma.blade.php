@@ -64,7 +64,6 @@
         <script src="{{asset('dist/js/vendors/popper.js')}}"></script>
         <script src="{{asset('dist/js/vendors/dropdown.js')}}"></script>
         <script src="{{asset('dist/js/vendors/tippy.js')}}"></script>
-        <script src="{{asset('dist/js/vendors/transition.js')}}"></script>
         <script src="{{asset('dist/js/vendors/simplebar.js')}}"></script>
         <script src="{{asset('dist/js/vendors/modal.js')}}"></script>
         <script src="{{asset('dist/js/vendors/sweetalert2.all.min.js')}}"></script>
@@ -74,6 +73,7 @@
         <script src="{{asset('dist/js/components/mobile-menu.js')}}"></script>
         <script src="{{asset('dist/js/components/themes/enigma/top-bar.js')}}"></script>
         <script src="{{asset('page/js/app.js')}}?v=250117"></script>
+        <script src="{{asset('dist/js/vendors/transition.js')}}"></script>
         <!-- END: Vendor JS Assets-->
         <!-- BEGIN: Pages, layouts, components JS Assets-->
         @yield('addition_script')

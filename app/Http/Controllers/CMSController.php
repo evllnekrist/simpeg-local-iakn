@@ -104,6 +104,7 @@ class CMSController extends Controller
                         'is_categorial'=>true,
                         'search'=>[
                             'type'=>'select',
+                            'color'=>'color',
                             'label'=>'label',
                             'id'=>'value',
                             'options'=>$status_list,
@@ -143,6 +144,7 @@ class CMSController extends Controller
                         'is_categorial'=>true,
                         'search'=>[
                             'type'=>'select',
+                            'color'=>'color',
                             'label'=>'label',
                             'id'=>'value',
                             'options'=>$jenis_list,
@@ -155,6 +157,7 @@ class CMSController extends Controller
                         'is_categorial'=>true,
                         'search'=>[
                             'type'=>'select',
+                            'color'=>'color',
                             'label'=>'label',
                             'id'=>'value',
                             'options'=>$status_kepegawaian_list,
@@ -169,6 +172,7 @@ class CMSController extends Controller
                         'is_categorial'=>true,
                         'search'=>[
                             'type'=>'select',
+                            'color'=>'warna',
                             'label'=>'combined',
                             'id'=>'combined',
                             'options'=>$pangkat_golongan_list,
@@ -180,7 +184,10 @@ class CMSController extends Controller
                         'is_order'=>true,
                         'is_categorial'=>true,
                         'search'=>[
-                            'type'=>'number'
+                            'type'=>'number',
+                            'color'=>'#00a8f4',
+                            'max'=>15,
+                            'dir'=>'DESC' // lebih besar angka, tingkatan lebih tinggi
                         ],
                     ],
                     [
@@ -192,6 +199,7 @@ class CMSController extends Controller
                         'is_categorial'=>true,
                         'search'=>[
                             'type'=>'select',
+                            'color'=>'warna',
                             'label'=>'nama',
                             'sublabel'=>'keterangan',
                             'id'=>'kode',
@@ -207,6 +215,7 @@ class CMSController extends Controller
                         'is_categorial'=>true,
                         'search'=>[
                             'type'=>'select',
+                            'color'=>'warna',
                             'label'=>'nama',
                             'sublabel'=>'kategori',
                             'id'=>'kode',
@@ -214,8 +223,110 @@ class CMSController extends Controller
                         ],
                     ],
                     [
+                        'label'=>'Penempatan',
+                        'var_name'=>'penempatan',
+                        'var_name_parent'=>'penempatan',
+                        'var_name_child'=>'nama',
+                        'is_order'=>true,
+                        'is_categorial'=>true,
+                        'search'=>[
+                            'type'=>'select',
+                            'color'=>'warna',
+                            'label'=>'nama',
+                            'id'=>'id',
+                            'options'=>$penempatan_list,
+                        ],
+                    ],
+                    [
+                        'label'=>'Tugas Tambahan',
+                        'var_name'=>'tugas_tambahan',
+                        'is_order'=>true,
+                        'search'=>[
+                            'type'=>'text'
+                        ],
+                    ],
+                    [
                         'label'=>'Jabatan Terakhir',
                         'var_name'=>'jabatan_terakhir',
+                        'is_order'=>true,
+                        'search'=>[
+                            'type'=>'text'
+                        ],
+                    ],
+                    [
+                        'label'=>'Tempat Lahir',
+                        'var_name'=>'tempat_lahir',
+                        'is_order'=>true,
+                        'search'=>[
+                            'type'=>'text'
+                        ],
+                    ],
+                    [
+                        'label'=>'Tanggal Lahir',
+                        'var_name'=>'tanggal_lahir',
+                        'is_order'=>true,
+                        'search'=>[
+                            'type'=>'text'
+                        ],
+                    ],
+                    [
+                        'label'=>'Jenis Kelamin',
+                        'var_name'=>'jenis_kelamin',
+                        'is_order'=>true,
+                        'is_categorial'=>true,
+                        'search'=>[
+                            'type'=>'select',
+                            'color'=>'color',
+                            'label'=>'label',
+                            'id'=>'value',
+                            'options'=>$jenis_kelamin_list,
+                        ],
+                    ],
+                    [
+                        'label'=>'Agama',
+                        'var_name'=>'agama',
+                        'is_order'=>true,
+                        'is_categorial'=>true,
+                        'search'=>[
+                            'type'=>'select',
+                            'color'=>'color',
+                            'label'=>'label',
+                            'id'=>'value',
+                            'options'=>$agama_list,
+                        ],
+                    ],
+                    [
+                        'label'=>'Status Perkawinan',
+                        'var_name'=>'status_perkawinan',
+                        'is_order'=>true,
+                        'is_categorial'=>true,
+                        'search'=>[
+                            'type'=>'select',
+                            'color'=>'color',
+                            'label'=>'label',
+                            'id'=>'value',
+                            'options'=>$status_perkawinan_list,
+                        ],
+                    ],
+                    [
+                        'label'=>'HP',
+                        'var_name'=>'hp',
+                        'is_order'=>true,
+                        'search'=>[
+                            'type'=>'text'
+                        ],
+                    ],
+                    [
+                        'label'=>'Email',
+                        'var_name'=>'email',
+                        'is_order'=>true,
+                        'search'=>[
+                            'type'=>'text'
+                        ],
+                    ],
+                    [
+                        'label'=>'Alamat',
+                        'var_name'=>'alamat',
                         'is_order'=>true,
                         'search'=>[
                             'type'=>'text'
