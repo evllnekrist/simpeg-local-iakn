@@ -172,10 +172,13 @@ class CMSController extends Controller
                         'is_categorial'=>true,
                         'search'=>[
                             'type'=>'select',
-                            'color'=>'warna',
+                            // 'color'=>'warna',
                             'label'=>'combined',
                             'id'=>'combined',
                             'options'=>$pangkat_golongan_list,
+                            'color_type'=>'generated_by_range',
+                            'color'=>'#1a001a',
+                            'dir'=>'DESC' // lebih besar urutan, tingkatan lebih tinggi
                         ],
                     ],
                     [
@@ -185,7 +188,7 @@ class CMSController extends Controller
                         'is_categorial'=>true,
                         'search'=>[
                             'type'=>'number',
-                            'color'=>'#00a8f4',
+                            'color'=>'#005780',
                             'max'=>15,
                             'dir'=>'DESC' // lebih besar angka, tingkatan lebih tinggi
                         ],

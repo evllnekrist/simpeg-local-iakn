@@ -48,3 +48,4 @@ Route::post('/employee/{id}', [EmployeeController::class, 'update'])->middleware
 Route::resource('employee', EmployeeController::class, ['except' => ['index', 'show']])->middleware(['auth:api']);
 
 Route::get('/statistic/emp/by-count/{var}', [StatisticController::class, 'by_count_employee']);
+Route::get('/statistic/org/chart', [StatisticController::class, 'org_chart']);

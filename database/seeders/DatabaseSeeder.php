@@ -25,7 +25,7 @@ class DatabaseSeeder extends Seeder
         // $this->call(PenempatanSeeder::class);
         // $this->call(BPSProvincesSeeder::class);
         // $this->call(BPSCitiesSeeder::class);
-        $this->call(BPSDistrictsSeeder::class);
-        $this->call(BPSVillagesSeeder::class);
+        // $this->call(BPSDistrictsSeeder::class);
+        // $this->call(BPSVillagesSeeder::class);
     }
 }
