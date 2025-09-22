@@ -39,7 +39,7 @@ class Controller extends BaseController
                       "name" => "Statistik",
                       "display_type" => null,
                       "icon" => "candlestick-chart",
-                      "slug" => "/statistics",
+                      "slug" => "/statistic",
                       "permit" => [
                           [
                               "id" => 1,

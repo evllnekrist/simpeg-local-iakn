@@ -13,7 +13,8 @@
             <ol class="flex items-center text-theme-1 dark:text-slate-300 text-white/90">
                 @for($i=0;$i<sizeof($breadcrumbs);$i++)
                     @if($i==sizeof($breadcrumbs)-1)
-                    <li class="relative ml-5 pl-0.5 before:content-[''] before:w-[14px] before:h-[14px] before:bg-chevron-white before:transform before:rotate-[-90deg] before:bg-[length:100%] before:-ml-[1.125rem] before:absolute before:my-auto before:inset-y-0 dark:before:bg-chevron-white text-white/70">
+                    <li class="relative ml-5 before:-ml-[1.125rem] before:absolute before:my-auto before:inset-y-0 text-white/70">
+                        <i class="fa-solid fa-chevron-right mr-3"></i>
                     @else
                     <li class="">
                     @endif

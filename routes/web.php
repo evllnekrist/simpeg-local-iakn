@@ -23,6 +23,7 @@ Route::get('phpmyinfo', function () {
 })->name('phpmyinfo');
 Route::get('/', [HomeController::class, 'index']);
 Route::get('/dashboard', [HomeController::class, 'index'])->name('dashboard');
+Route::get('statistic', [CMSController::class, 'index_statistic'])->name('stats');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -41,8 +42,6 @@ Route::middleware('auth')->group(function () {
     Route::get('user/{id}', [RegisteredUserController::class, 'form_edit'])->name('user.edit');
     Route::post('user', [RegisteredUserController::class, 'update'])->name('user.update');
 
-    Route::view('/pj', 'pages.statistic.pj');
-    Route::get('statistic', [CMSController::class, 'index_statistic'])->name('stats');
     Route::get('log', [LogController::class, 'index'])->name('log');
     Route::get('faq', [HomeController::class, 'index_faq'])->name('faq');
     
