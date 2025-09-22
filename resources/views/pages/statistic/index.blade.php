@@ -148,7 +148,7 @@
                     <!-- END:   Employee By Count -->
 
                     <!-- BEGIN: Position Map -->
-                    <div class="col-span-12 mt-10">
+                    <div class="col-span-12 mt-20">
                         <div class="intro-y flex h-10 items-center">
                             <h2 class="mr-5 truncate text-lg font-medium">Peta Jabatan</h2>
                             <div class="ml-auto">

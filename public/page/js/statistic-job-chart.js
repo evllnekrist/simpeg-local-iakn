@@ -12,7 +12,7 @@ console.log('____statistic job chart js');
                 <div style="padding:4px 12px;font-size:12px;color:#555">${subtitle}</div>
               </div>`;
     }
-    const bTot = sum(rows,'b'), kTot = sum(rows,'k'), vac = Math.max(0,kTot-bTot);
+    const bTot = sum(rows,'b'), kTot = sum(rows,'k'), delta = kTot-bTot;
     return `<div style="width:${d.width}px;border:1px solid #ccc;border-radius:8px;background:#fff;overflow:hidden">
               <div style="background:#eee;padding:8px 12px;font-weight:bold">
                 ${title}
@@ -22,7 +22,7 @@ console.log('____statistic job chart js');
               </div>
               <div style="padding:4px 12px;font-size:12px;color:#555;display:flex;justify-content:space-between">
                 <span>${subtitle}</span>
-                <span style="background:#eef2ff;border-radius:4px;padding:2px 6px;font-size:11px">B:${bTot} · K:${kTot} · Vac:${vac}</span>
+                <span style="background:#eef2ff;border-radius:4px;padding:2px 6px;font-size:11px">B:${bTot} · K:${kTot} · Delta:${delta}</span>
               </div>
               <table style="width:100%;border-collapse:collapse;font-size:12px">
                 <thead><tr style="background:#f9fafb">
@@ -118,92 +118,139 @@ a.click();
       setTimeout(()=>chart.fit(), 200);
     }
   });
-// ===== EXPORT EXCEL (Hierarki 1 sheet, outline per level) =====
-  function exportExcelHierarchy(nodesArray, filename = 'peta-jabatan-hierarki.xlsx') {
+
+  function exportExcelHierarchyWithSummaryV2(nodesArray, filename='peta-jabatan.xlsx') {
     if (!window.XLSX) { alert('SheetJS (xlsx) belum termuat'); return; }
 
-    // Build index & adjacency
+    // --- index & adjacency
     const byId = Object.fromEntries(nodesArray.map(n => [n.id, n]));
     const children = {};
     nodesArray.forEach(n => { if (n.parentId) (children[n.parentId] ||= []).push(n.id); });
 
-    const out = [];
+    const hier = [];        // rows untuk sheet Hierarki
+    const levelOfRow = [];  // outline level (tidak menjadi kolom, hanya styling Excel)
+
     function dfs(id, level, path) {
       const n = byId[id];
-      const currentPath = [...path, n.title];
+      const currentPath = [...path, (n.title || '')];
+      const pathStr = currentPath.join(' > '); // pakai " > " sesuai permintaan
       const rows = Array.isArray(n.rows) ? n.rows : [];
 
       if (!rows.length) {
-        // Tetap keluarkan 1 baris agar node tanpa rows muncul di Excel
-        out.push({
-          Path: currentPath.join(' / '),
-          Unit: n.title || '',
-          Subtitle: n.subtitle || '',
-          Level: level,
-          Jabatan: '',
-          KLS: '',
-          B: '',
-          K: '',
-          PlusMinus: '',
-          Type: n.type || ''   // opsional: jika punya properti type
+        // tetap tampilkan node kosong
+        hier.push({
+          id: n.id,
+          parent_id: n.parentId || '',
+          path: pathStr,
+          title: n.title || '',
+          subtitle: n.subtitle || '',
+          jabatan: '',
+          kls: '',
+          b: 0,
+          k: 0,
+          delta: 0
         });
+        levelOfRow.push(level);
       } else {
         rows.forEach(r => {
-          out.push({
-            Path: currentPath.join(' / '),
-            Unit: n.title || '',
-            Subtitle: n.subtitle || '',
-            Level: level,
-            Jabatan: r.jabatan ?? '',
-            KLS: r.kls ?? '',
-            B: r.b ?? '',
-            K: r.k ?? '',
-            PlusMinus: r.delta ?? '',
-            Type: n.type || ''
+          hier.push({
+            id: n.id,
+            parent_id: n.parentId || '',
+            path: pathStr,
+            title: n.title || '',
+            subtitle: n.subtitle || '',
+            jabatan: r.jabatan ?? '',
+            kls: r.kls ?? '',
+            b: Number(r.b || 0),
+            k: Number(r.k || 0),
+            delta: Number(r.delta || 0)
           });
+          levelOfRow.push(level);
         });
       }
-
       (children[id] || []).forEach(cid => dfs(cid, level + 1, currentPath));
     }
 
-    // Mulai dari semua root (tanpa parentId)
+    // start from roots (no parentId)
     nodesArray.filter(n => !n.parentId).forEach(root => dfs(root.id, 0, []));
 
-    // Buat worksheet
-    const header = ["Path","Unit","Subtitle","Level","Jabatan","KLS","B","K","+/-","Type"];
-    const data = [header, ...out.map(r => [
-      r.Path, r.Unit, r.Subtitle, r.Level, r.Jabatan, r.KLS, r.B, r.K, r.PlusMinus, r.Type
+    // ---- Sheet 1: Hierarki (kolom sesuai spesifikasi)
+    const hierHeader = ["id","parent_id","path","title","subtitle","jabatan","kls","b","k","delta"];
+    const hierData = [hierHeader, ...hier.map(r => [
+      r.id, r.parent_id, r.path, r.title, r.subtitle, r.jabatan, r.kls, r.b, r.k, r.delta
     ])];
 
-    const ws = XLSX.utils.aoa_to_sheet(data);
-
-    // Outline level per row (baris 0 = header, mulai level di baris 1)
-    ws['!rows'] = [{}, ...out.map(r => ({ level: r.Level }))];
-
-    // Lebar kolom biar nyaman dibaca
-    ws['!cols'] = [
-      { wch: 60 }, // Path
-      { wch: 32 }, // Unit
-      { wch: 24 }, // Subtitle
-      { wch: 6  }, // Level
-      { wch: 44 }, // Jabatan
-      { wch: 6  }, // KLS
-      { wch: 6  }, // B
-      { wch: 6  }, // K
-      { wch: 6  }, // +/-
-      { wch: 10 }  // Type
+    const ws1 = XLSX.utils.aoa_to_sheet(hierData);
+    // outline levels (baris 0 header)
+    ws1['!rows'] = [{}, ...levelOfRow.map(lvl => ({ level: lvl }))];
+    ws1['!cols'] = [
+      {wch:18}, // id
+      {wch:18}, // parent_id
+      {wch:70}, // path
+      {wch:36}, // title
+      {wch:30}, // subtitle
+      {wch:50}, // jabatan
+      {wch:6},  // kls
+      {wch:6},  // b
+      {wch:6},  // k
+      {wch:8},  // delta
     ];
 
-    // Tulis file
+    // ---- Sheet 2: Summary (agregasi per id)
+    // kunci = id node; simpan juga parent_id/title/path untuk konteks
+    const summaryMap = {};
+    hier.forEach(r => {
+      const key = r.id;
+      if (!summaryMap[key]) {
+        summaryMap[key] = {
+          id: r.id,
+          // parent_id: r.parent_id,
+          title: r.title,
+          // path: r.path,
+          B: 0, K: 0, Vac: 0, Delta: 0
+        };
+      }
+      summaryMap[key].B += Number(r.b || 0);
+      summaryMap[key].K += Number(r.k || 0);
+      summaryMap[key].Delta += Number(r.delta || 0);
+      // Vacant dihitung dari agregat K - B (>=0)
+      // catatan: agregasi Vac langsung tiap-baris juga ok, tapi hasil sama ketika dijumlahkan
+    });
+    // hitung Vacant akhir per id
+    Object.values(summaryMap).forEach(x => { x.Vac = Math.max(0, x.K - x.B); });
+
+    // urutkan by path asc untuk rapi
+    const summaryRows = Object.values(summaryMap)
+      .sort((a,b) => a.path.localeCompare(b.path))
+      .map(x => [x.id, x.parent_id, x.title, x.path, x.B, x.K, x.Vac, x.Delta]);
+
+    // total (opsional) – berdasarkan agregat semua id
+    const totals = summaryRows.reduce((acc, row) => {
+      acc.B += row[4]; acc.K += row[5]; acc.Vac += row[6]; acc.Delta += row[7];
+      return acc;
+    }, {B:0,K:0,Vac:0,Delta:0});
+    summaryRows.push(['TOTAL','','','', totals.B, totals.K, totals.Vac, totals.Delta]);
+
+    const ws2 = XLSX.utils.aoa_to_sheet([
+      ["id","parent_id","title","path","B","K","Vacant","Delta"],
+      ...summaryRows
+    ]);
+    ws2['!cols'] = [
+      {wch:18},{wch:18},{wch:36},{wch:70},
+      {wch:8},{wch:8},{wch:10},{wch:8}
+    ];
+
+    // ---- write workbook
     const wb = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(wb, ws, 'Hierarki');
+    XLSX.utils.book_append_sheet(wb, ws1, 'Hierarki');
+    XLSX.utils.book_append_sheet(wb, ws2, 'Summary');
     XLSX.writeFile(wb, filename);
-  }
+}
+
   
   document.getElementById('org_chart_xlsx_btn').addEventListener('click', () => {
-    console.log('ayyyee')
-    exportExcelHierarchy(nodes, 'Peta-Jabatan-IAKN-PalangkaRaya.xlsx');
+    // exportExcelHierarchy(nodes, 'Peta-Jabatan-IAKN-PalangkaRaya.xlsx');
+    exportExcelHierarchyWithSummaryV2(nodes, 'struktur-iakn-palangka-raya.xlsx');
   });
 // -------- Build chart ----
   function chartOrg(listId){
@@ -217,9 +264,7 @@ a.click();
       .nodeContent(nodeContent)
       .render();
 
-    // chart.fit();
-    // chart.expandAll(); // uncomment if you want everything open on load
-    chart.collapseAll()
+    chart.layout('left').render().expandAll().fit(); // default bukaan root kiri, expand all, fit screen
   }
   function getJobChart(){
       const listId = 'org_chart';
