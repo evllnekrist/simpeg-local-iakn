@@ -33,10 +33,10 @@ Route::resource('role', RoleController::class, ['only' => ['index', 'show']]);
 Route::post('/role/{id}', [RoleController::class, 'update'])->middleware(['auth:api']);
 Route::resource('role', RoleController::class, ['except' => ['index', 'show']]);
 
-Route::post('/user-group/get', [UserGroupController::class, 'get_list']);
-Route::post('/user-group', [UserGroupController::class, 'post_add']);
-Route::post('/user-group', [UserGroupController::class, 'post_edit']);
-Route::post('/user-group/post-delete/{id}', [UserGroupController::class, 'post_delete']);
+// Route::post('/user-group/get', [UserGroupController::class, 'get_list']);
+// Route::post('/user-group', [UserGroupController::class, 'post_add']);
+// Route::post('/user-group', [UserGroupController::class, 'post_edit']);
+// Route::post('/user-group/post-delete/{id}', [UserGroupController::class, 'post_delete']);
 
 
 Route::resource('log', LogController::class, ['only' => ['index', 'show']]);
